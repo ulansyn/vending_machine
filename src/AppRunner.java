@@ -5,11 +5,14 @@ import util.UniversalArrayImpl;
 
 import java.util.Scanner;
 
+import static model.AbstractPaymentAcceptor.totalAmount;
+
 public class AppRunner {
 
     private final UniversalArray<Product> products = new UniversalArrayImpl<>();
 
     private final CoinAcceptor coinAcceptor;
+    private final BanknoteAcceptor banknoteAcceptor;
 
     private static boolean isExit = false;
 
@@ -22,7 +25,8 @@ public class AppRunner {
                 new Mars(ActionLetter.F, 80),
                 new Pistachios(ActionLetter.G, 130)
         });
-        coinAcceptor = new CoinAcceptor(100);
+        coinAcceptor = new CoinAcceptor();
+        banknoteAcceptor = new BanknoteAcceptor();
     }
 
     public static void run() {
@@ -36,7 +40,7 @@ public class AppRunner {
         print("В автомате доступны:");
         showProducts(products);
 
-        print("Монет на сумму: " + coinAcceptor.getAmount());
+        print("Монет на сумму: " + totalAmount);
 
         UniversalArray<Product> allowProducts = new UniversalArrayImpl<>();
         allowProducts.addAll(getAllowedProducts().toArray());
@@ -47,7 +51,7 @@ public class AppRunner {
     private UniversalArray<Product> getAllowedProducts() {
         UniversalArray<Product> allowProducts = new UniversalArrayImpl<>();
         for (int i = 0; i < products.size(); i++) {
-            if (coinAcceptor.getAmount() >= products.get(i).getPrice()) {
+            if (totalAmount >= products.get(i).getPrice()) {
                 allowProducts.add(products.get(i));
             }
         }
@@ -59,31 +63,58 @@ public class AppRunner {
         showActions(products);
         print(" h - Выйти");
         String action = fromConsole().substring(0, 1);
+
         if ("a".equalsIgnoreCase(action)) {
-            coinAcceptor.setAmount(coinAcceptor.getAmount() + 10);
-            print("Вы пополнили баланс на 10");
+            String paymentMethod = choosePaymentMethod();
+            switch (paymentMethod) {
+                case "Coin":
+                    coinAcceptor.setAmount(coinAcceptor.getCoin());
+                    break;
+                case "Banknote":
+                    coinAcceptor.setAmount(banknoteAcceptor.getMoney());
+                    break;
+            }
             return;
         }
+
         try {
             for (int i = 0; i < products.size(); i++) {
                 if (products.get(i).getActionLetter().equals(ActionLetter.valueOf(action.toUpperCase()))) {
-                    coinAcceptor.setAmount(coinAcceptor.getAmount() - products.get(i).getPrice());
+                    totalAmount -= products.get(i).getPrice();
                     print("Вы купили " + products.get(i).getName());
+                    break;
+                } else if ("h".equalsIgnoreCase(action)) {
+                    isExit = true;
                     break;
                 }
             }
         } catch (IllegalArgumentException e) {
-            if ("h".equalsIgnoreCase(action)) {
-                isExit = true;
-            } else {
-                print("Недопустимая буква. Попрбуйте еще раз.");
-                chooseAction(products);
-            }
+            print("Недопустимая буква. Попрбуйте еще раз.");
+            chooseAction(products);
         }
 
 
     }
 
+    private String choosePaymentMethod() {
+        Scanner scanner = new Scanner(System.in);
+        String input;
+
+        while (true) {
+            System.out.println("Choose payment method:" +
+                    "'1' for 'Coin' " +
+                    "'2' for 'Banknote'");
+            input = scanner.nextLine().trim();
+
+            if (input.equals("1")) {
+                return "Coin";
+            } else if (input.equals("2")) {
+                return "Banknote";
+            } else {
+                System.out.println("Invalid input. Please enter 'Coin' or 'Banknote'.");
+            }
+        }
+    }
     private void showActions(UniversalArray<Product> products) {
         for (int i = 0; i < products.size(); i++) {
             print(String.format(" %s - %s", products.get(i).getActionLetter().getValue(), products.get(i).getName()));
