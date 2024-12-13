@@ -57,9 +57,18 @@ public class AppRunner {
     }
 
     private void chooseAction(UniversalArray<Product> products) {
+        print(" a - Пополнить баланс");
         showActions(products);
         print(" h - Выйти");
         String action = fromConsole().substring(0, 1);
+
+        if ("a".equalsIgnoreCase(action)) {
+            String paymentMethod = choosePaymentMethod();
+            coinAcceptor.setAmount(totalAmount + 10);
+            print("Вы пополнили баланс на 10");
+            return;
+        }
+
         try {
             for (int i = 0; i < products.size(); i++) {
                 if (products.get(i).getActionLetter().equals(ActionLetter.valueOf(action.toUpperCase()))) {
@@ -79,6 +88,23 @@ public class AppRunner {
 
     }
 
+    private String choosePaymentMethod() {
+        Scanner scanner = new Scanner(System.in);
+        String input;
+
+        while (true) {
+            System.out.println("Choose payment method (type 'Coin' or 'Banknote'):");
+            input = scanner.nextLine().trim();
+
+            if (input.equalsIgnoreCase("Coin")) {
+                return "Coin";
+            } else if (input.equalsIgnoreCase("Banknote")) {
+                return "Banknote";
+            } else {
+                System.out.println("Invalid input. Please enter 'Coin' or 'Banknote'.");
+            }
+        }
+    }
     private void showActions(UniversalArray<Product> products) {
         for (int i = 0; i < products.size(); i++) {
             print(String.format(" %s - %s", products.get(i).getActionLetter().getValue(), products.get(i).getName()));
