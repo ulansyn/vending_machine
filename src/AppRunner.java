@@ -12,6 +12,7 @@ public class AppRunner {
     private final UniversalArray<Product> products = new UniversalArrayImpl<>();
 
     private final CoinAcceptor coinAcceptor;
+    private final BanknoteAcceptor banknoteAcceptor;
 
     private static boolean isExit = false;
 
@@ -25,6 +26,7 @@ public class AppRunner {
                 new Pistachios(ActionLetter.G, 130)
         });
         coinAcceptor = new CoinAcceptor();
+        banknoteAcceptor = new BanknoteAcceptor();
     }
 
     public static void run() {
@@ -67,11 +69,11 @@ public class AppRunner {
             switch (paymentMethod) {
                 case "Coin":
                     coinAcceptor.setAmount(coinAcceptor.getCoin());
+
                 case "Banknote":
+                    coinAcceptor.setAmount(banknoteAcceptor.getMoney());
 
             }
-            coinAcceptor.setAmount(totalAmount + 10);
-            print("Вы пополнили баланс на 10");
             return;
         }
 

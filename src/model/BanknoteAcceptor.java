@@ -20,7 +20,7 @@ public class BanknoteAcceptor extends AbstractPaymentAcceptor {
         System.out.println("Banknote accepted: " + amount);
     }
 
-    private int getMoney() {
+    public int getMoney() {
         Scanner scanner = new Scanner(System.in);
         String input;
 
@@ -33,7 +33,7 @@ public class BanknoteAcceptor extends AbstractPaymentAcceptor {
 
                 switch (amount) {
                     case 20, 50, 100, 200, 500, 1000, 2000, 5000 -> {
-                        return amount; // Если сумма допустимая, возвращаем её
+                        return amount;
                     }
                     default -> System.out.println("Неверная сумма. Допустимы только: 20, 50, 100, 200, 500, 1000, 2000, 5000.");
                 }
