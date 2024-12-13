@@ -93,12 +93,14 @@ public class AppRunner {
         String input;
 
         while (true) {
-            System.out.println("Choose payment method (type 'Coin' or 'Banknote'):");
+            System.out.println("Choose payment method:" +
+                    "'1' for 'Coin' " +
+                    "'2' for 'Banknote'");
             input = scanner.nextLine().trim();
 
-            if (input.equalsIgnoreCase("Coin")) {
+            if (input.equals("1")) {
                 return "Coin";
-            } else if (input.equalsIgnoreCase("Banknote")) {
+            } else if (input.equals("2")) {
                 return "Banknote";
             } else {
                 System.out.println("Invalid input. Please enter 'Coin' or 'Banknote'.");
