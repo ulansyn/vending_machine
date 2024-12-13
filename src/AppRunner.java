@@ -64,6 +64,12 @@ public class AppRunner {
 
         if ("a".equalsIgnoreCase(action)) {
             String paymentMethod = choosePaymentMethod();
+            switch (paymentMethod) {
+                case "Coin":
+                    coinAcceptor.setAmount(coinAcceptor.getCoin());
+                case "Banknote":
+
+            }
             coinAcceptor.setAmount(totalAmount + 10);
             print("Вы пополнили баланс на 10");
             return;
