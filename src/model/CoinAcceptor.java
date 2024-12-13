@@ -16,7 +16,7 @@ public class CoinAcceptor extends AbstractPaymentAcceptor {
         if (amount <= 0) {
             throw new IllegalArgumentException("Монеты должны быть неотрицательными!");
         }
-        totalAmount += amount;
+        totalAmount = amount;
         System.out.println("Coin accepted: " + amount);
     }
     public int getCoin() {
