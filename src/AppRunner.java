@@ -69,10 +69,10 @@ public class AppRunner {
             switch (paymentMethod) {
                 case "Coin":
                     coinAcceptor.setAmount(coinAcceptor.getCoin());
-
+                    break;
                 case "Banknote":
                     coinAcceptor.setAmount(banknoteAcceptor.getMoney());
-
+                    break;
             }
             return;
         }
