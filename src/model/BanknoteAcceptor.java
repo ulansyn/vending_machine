@@ -16,7 +16,7 @@ public class BanknoteAcceptor extends AbstractPaymentAcceptor {
         if (amount <= 0) {
             throw new IllegalArgumentException("Деньги должны быть неотрицательными!");
         }
-        totalAmount = amount;
+        totalAmount += amount;
         System.out.println("Banknote accepted: " + amount);
     }
 
