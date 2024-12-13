@@ -9,7 +9,7 @@ public class CoinAcceptor implements PaymentAcceptor {
 
     @Override
     public boolean authorize() {
-        return false;
+        return true;
     }
 
     public int getAmount() {
