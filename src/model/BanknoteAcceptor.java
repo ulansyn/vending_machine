@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Scanner;
+
 public class BanknoteAcceptor extends AbstractPaymentAcceptor {
 
     @Override
@@ -18,5 +20,23 @@ public class BanknoteAcceptor extends AbstractPaymentAcceptor {
         System.out.println("Banknote accepted: " + amount);
     }
 
+    public int getBanknote() {
+        Scanner scanner = new Scanner(System.in);
+        String input;
 
+        while (true) {
+            System.out.println("Пополните купюры (20, 50, 100, 200, 500, 1000, 2000, 5000):");
+            input = scanner.nextLine().trim();
+            try {
+                int amount = Integer.parseInt(input);
+                if (amount == 1 || amount == 3 || amount == 5 || amount == 10) {
+                    return amount;
+                } else {
+                    System.out.println("Неверная сумма. Допустимы только: 20, 50, 100, 200, 500, 1000, 2000, 5000.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Введите корректное число.");
+            }
+        }
+    }
 }
